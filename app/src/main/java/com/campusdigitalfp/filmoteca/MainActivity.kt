@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.modifier.ModifierLocal
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -33,12 +34,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // Llamar a loadData pasando el contexto de la actividad
+        loadData(context = this)
         setContent {
             FilmotecaTheme {
                 AboutScreen()
             }
         }
     }
+}
+
+// Función que recibe el contexto y carga los datos necesarios
+fun loadData(context: Context) {
+    // Cargar datos aquí, por ejemplo cargar preferencias o recursos
 }
 
 fun showToast(context: Context, message: String) {
@@ -48,19 +56,20 @@ fun showToast(context: Context, message: String) {
 @Composable
 fun AboutScreen() {
     val context = LocalContext.current // Obtener el contexto local
+    val toastMessage = stringResource(id = R.string.toast) // Defino esta variable ya que si no no me deja usar stringResource en onClick
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center // Centra verticalmente
     ) {
         Text(
-            text = "Creada por Juan Diego Faci Muñoz",
+            text = stringResource(id = R.string.autor),
             modifier = Modifier.padding(16.dp),
 
             )
         Image(
             painter = painterResource(id = R.drawable.perfil),
-            contentDescription = "Imagen de perfil",
+            contentDescription = stringResource(id = R.string.imagen_perfil),
             modifier = Modifier.size(100.dp),
         )
         Row(
@@ -70,28 +79,27 @@ fun AboutScreen() {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Button(
-                onClick = { showToast(context, "Funcionalidad sin implementar") },
+                onClick = { showToast(context, toastMessage) },
                 modifier = Modifier.padding(vertical = 8.dp)
             ) {
-                Text("Ir al sitio web")
+                Text(stringResource(id = R.string.website))
             }
             Button(
-                onClick = { showToast(context, "Funcionalidad sin implementar") },
+                onClick = { showToast(context, toastMessage) },
                 modifier = Modifier.padding(vertical = 8.dp)
             ) {
-                Text("Obtener soporte")
+                Text(stringResource(id = R.string.soporte))
             }
         }
         Button(
-            onClick = { showToast(context, "Funcionalidad sin implementar") },
+            onClick = { showToast(context, toastMessage) },
             modifier = Modifier.padding(vertical = 8.dp)
         ) {
-            Text("Volver")
+            Text(stringResource(id = R.string.volver))
         }
 
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

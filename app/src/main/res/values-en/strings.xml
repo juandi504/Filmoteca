@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Film Archive</string>
+    <string name="autor">Created by Juan Diego Faci Muñoz</string>
+    <string name="website">Go to website</string>
+    <string name="soporte">Get support</string>
+    <string name="volver">Go Back</string>
+    <string name="toast">Feature not implemented</string>
+    <string name="imagen_perfil">profile picture</string>
+</resources>
