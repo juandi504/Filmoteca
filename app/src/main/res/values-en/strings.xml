@@ -7,4 +7,5 @@
     <string name="volver">Go Back</string>
     <string name="toast">Feature not implemented</string>
     <string name="imagen_perfil">profile picture</string>
+    <string name="incidencia_con_filmoteca">Issue with Film Archive app</string>
 </resources>

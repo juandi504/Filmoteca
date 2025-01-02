@@ -1,6 +1,8 @@
 package com.campusdigitalfp.filmoteca
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -53,10 +55,36 @@ fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
+fun abrirPaginaWeb(url: String, context: Context) {
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(url) // Establece la URL que quieres abrir
+    }
+    context.startActivity(intent) // Inicia la actividad
+}
+
+fun mandarEmail(context: Context, email: String, asunto: String) {
+    val intent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:$email")
+        putExtra(Intent.EXTRA_SUBJECT, asunto)
+    }
+
+    try {
+        // Inicia la actividad de correo sin la verificación resolveActivity ya que si lo hago con el if
+        // que aparece en el ejercicio no funciona, ya que siempre devuelve null el if y no ejecuta la
+        // APP de correo del móvil.
+        context.startActivity(intent)
+    } catch (e: Exception) {
+        // Maneja el caso cuando no haya aplicaciones para manejar el Intent
+        Toast.makeText(context, "No se encontró ninguna aplicación de correo", Toast.LENGTH_SHORT)
+            .show()
+    }
+}
+
 @Composable
 fun AboutScreen() {
     val context = LocalContext.current // Obtener el contexto local
-    val toastMessage = stringResource(id = R.string.toast) // Defino esta variable ya que si no no me deja usar stringResource en onClick
+    val toastMessage =
+        stringResource(id = R.string.toast) // Defino esta variable ya que si no no me deja usar stringResource en onClick
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -79,13 +107,19 @@ fun AboutScreen() {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Button(
-                onClick = { showToast(context, toastMessage) },
+                onClick = { abrirPaginaWeb("https://www.google.es", context) },
                 modifier = Modifier.padding(vertical = 8.dp)
             ) {
                 Text(stringResource(id = R.string.website))
             }
             Button(
-                onClick = { showToast(context, toastMessage) },
+                onClick = {
+                    mandarEmail(
+                        context,
+                        "jdfacims@fpvirtualaragon.es",
+                        context.getString(R.string.incidencia_con_filmoteca)
+                    )
+                },
                 modifier = Modifier.padding(vertical = 8.dp)
             ) {
                 Text(stringResource(id = R.string.soporte))
