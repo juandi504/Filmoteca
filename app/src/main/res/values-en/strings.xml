@@ -8,4 +8,14 @@
     <string name="toast">Feature not implemented</string>
     <string name="imagen_perfil">profile picture</string>
     <string name="incidencia_con_filmoteca">Issue with Film Archive app</string>
+    <string name="Datos_pelicula">Movie Details</string>
+    <string name="Editar_pelicula">Editing movie</string>
+    <string name="Guardar">Save</string>
+    <string name="Cancelar">Cancel</string>
+    <string name="Ver_PeliculaA">Watch movie A</string>
+    <string name="Ver_PeliculaB">Watch movie B</string>
+    <string name="Acerca_de">About</string>
+    <string name="ver_pelicula_rel">Watch Related</string>
+    <string name="editar_pelicula">Edit Movie</string>
+    <string name="volver_principal">Return to Main</string>
 </resources>

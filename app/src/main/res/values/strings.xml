@@ -8,4 +8,14 @@
     <string name="toast">Funcionalidad sin implementar</string>
     <string name="imagen_perfil">Imagen de perfil</string>
     <string name="incidencia_con_filmoteca">Incidencia con app Filmoteca</string>
+    <string name="Datos_pelicula">Datos de la película</string>
+    <string name="Editar_pelicula">Editando película</string>
+    <string name="Guardar">Guardar</string>
+    <string name="Cancelar">Cancelar</string>
+    <string name="Ver_PeliculaA">Ver pelicula A</string>
+    <string name="Ver_PeliculaB">Ver pelicula B</string>
+    <string name="Acerca_de">Acerca de</string>
+    <string name="ver_pelicula_rel">Ver pelicula Relacionada</string>
+    <string name="editar_pelicula">Editar Pelicula</string>
+    <string name="volver_principal">Volver a la principal</string>
 </resources>
