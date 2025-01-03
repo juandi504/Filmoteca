@@ -93,12 +93,12 @@ fun AboutScreen(navController: NavHostController) {
                     }
                 }
             )
-        }) {
+        }) {paddingValues ->
         val context = LocalContext.current // Obtener el contexto local
         val toastMessage =
             stringResource(id = R.string.toast) // Defino esta variable ya que si no no me deja usar stringResource en onClick
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center // Centra verticalmente
         ) {
