@@ -24,10 +24,14 @@ import com.campusdigitalfp.filmoteca.ui.theme.FilmotecaTheme
 
 
 @Composable
-fun ButtonPelRel(navController: NavHostController) {
+fun ButtonPelRel(navController: NavHostController, nombrePeli: String) {
+    // esta variable almacena el nombre de la pelicula dependiendo de cual este mostrando su FilmDataScreen
+    // Si es pelicula A, muestra pelicula B al pulsar en pelicula relacionada y viceversa
+    val peliculaRelacionada = if (nombrePeli == "Película A") "Película B" else "Película A"
 
+    // El boton hace uso de la variable para navegar con ese parámetro
     Button(
-        onClick = { navController.navigate("data") },
+        onClick = { navController.navigate("data/$peliculaRelacionada") },
     ) {
         Text(stringResource(id = R.string.ver_pelicula_rel))
     }
@@ -56,7 +60,7 @@ fun ButtonReturn(navController: NavHostController) {
 
 
 @Composable
-fun FilmDataScreen(navController: NavHostController) {
+fun FilmDataScreen(navController: NavHostController, nombrePeli: String) {
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -68,10 +72,16 @@ fun FilmDataScreen(navController: NavHostController) {
         ) {
             Text(
                 text = stringResource(id = R.string.Datos_pelicula),
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(4.dp),
+            )
+            // El nombre de la película llega por parámetro, el cual uso para crear un texto
+            Text(
+                text = nombrePeli,
+                modifier = Modifier.padding(top = 8.dp, bottom =16.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
-            ButtonPelRel(navController)
+            // el botón de pelicula relacionada debe tener el parámetro de nombrePeli
+            ButtonPelRel(navController, nombrePeli)
             Spacer(modifier = Modifier.height(16.dp))
             ButtonEditar(navController)
             Spacer(modifier = Modifier.height(16.dp))

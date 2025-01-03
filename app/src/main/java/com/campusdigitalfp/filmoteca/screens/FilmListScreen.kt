@@ -24,7 +24,7 @@ import com.campusdigitalfp.filmoteca.R
 fun ButtonPelA(navController: NavHostController) {
 
     Button(
-        onClick = { navController.navigate("data") },
+        onClick = { navController.navigate("data/Película A") },
     ) {
         Text(stringResource(id = R.string.Ver_PeliculaA))
     }
@@ -34,7 +34,7 @@ fun ButtonPelA(navController: NavHostController) {
 fun ButtonPelB(navController: NavHostController) {
 
     Button(
-        onClick = { navController.navigate("data") },
+        onClick = { navController.navigate("data/Película B") },
     ) {
         Text(stringResource(id = R.string.Ver_PeliculaB))
     }

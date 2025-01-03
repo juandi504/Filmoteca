@@ -15,7 +15,13 @@ fun Navigation() {
 
     NavHost(navController = navController, startDestination = "list") {
         composable("about") { AboutScreen(navController) }
-        composable("data") { FilmDataScreen(navController) }
+
+        // Modificación para que se pueda pasar el parámetro de la película
+        composable("data/{nombrePeli}") { backStackEntry ->
+            val nombrePeli = backStackEntry.arguments?.getString("nombrePeli")?: "Desconocida"
+            FilmDataScreen(navController, nombrePeli)
+        }
+
         composable("edit") { FilmEditScreen(navController) }
         composable("list") { FilmListScreen(navController) }
     }
