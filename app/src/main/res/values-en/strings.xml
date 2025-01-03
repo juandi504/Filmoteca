@@ -20,4 +20,5 @@
     <string name="volver_principal">Return to Main</string>
     <string name="editada">Edited Movie</string>
     <string name="cancelado">Editing canceled</string>
+    <string name="lista">Movie List</string>
 </resources>

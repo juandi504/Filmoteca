@@ -20,4 +20,5 @@
     <string name="volver_principal">Volver a la principal</string>
     <string name="editada">Película editada</string>
     <string name="cancelado">Edición cancelada</string>
+    <string name="lista">Lista de películas</string>
 </resources>

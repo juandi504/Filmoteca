@@ -12,8 +12,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,57 +67,83 @@ fun mandarEmail(context: Context, email: String, asunto: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(navController: NavHostController) {
-    val context = LocalContext.current // Obtener el contexto local
-    val toastMessage =
-        stringResource(id = R.string.toast) // Defino esta variable ya que si no no me deja usar stringResource en onClick
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center // Centra verticalmente
-    ) {
-        Text(
-            text = stringResource(id = R.string.autor),
-            modifier = Modifier.padding(16.dp),
-
-            )
-        Image(
-            painter = painterResource(id = R.drawable.perfil),
-            contentDescription = stringResource(id = R.string.imagen_perfil),
-            modifier = Modifier.size(100.dp),
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Button(
-                onClick = { abrirPaginaWeb("https://www.google.es", context) },
-                modifier = Modifier.padding(vertical = 8.dp)
-            ) {
-                Text(stringResource(id = R.string.website))
-            }
-            Button(
-                onClick = {
-                    mandarEmail(
-                        context,
-                        "jdfacims@fpvirtualaragon.es",
-                        context.getString(R.string.incidencia_con_filmoteca)
-                    )
+    Scaffold(
+        // Definición de la barra superior dentro del Scaffold
+        topBar = {
+            TopAppBar(
+                // Definimos los colores personalizados para la TopAppBar
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer, // Color de fondo de la barra
+                    titleContentColor = MaterialTheme.colorScheme.primary, // Color del título
+                ),
+                // Definimos el título que aparecerá en la TopAppBar
+                title = {
+                    Text(stringResource(id = R.string.Acerca_de)) // Texto del título
                 },
+                // Ícono de navegación en la izquierda (botón de retroceso)
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack, // Icono de retroceso
+                            contentDescription = "Atrás" // Descripción del ícono (para accesibilidad)
+                        )
+                    }
+                }
+            )
+        }) {
+        val context = LocalContext.current // Obtener el contexto local
+        val toastMessage =
+            stringResource(id = R.string.toast) // Defino esta variable ya que si no no me deja usar stringResource en onClick
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center // Centra verticalmente
+        ) {
+            Text(
+                text = stringResource(id = R.string.autor),
+                modifier = Modifier.padding(16.dp),
+
+                )
+            Image(
+                painter = painterResource(id = R.drawable.perfil),
+                contentDescription = stringResource(id = R.string.imagen_perfil),
+                modifier = Modifier.size(100.dp),
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(
+                    onClick = { abrirPaginaWeb("https://www.google.es", context) },
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Text(stringResource(id = R.string.website))
+                }
+                Button(
+                    onClick = {
+                        mandarEmail(
+                            context,
+                            "jdfacims@fpvirtualaragon.es",
+                            context.getString(R.string.incidencia_con_filmoteca)
+                        )
+                    },
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Text(stringResource(id = R.string.soporte))
+                }
+            }
+            Button(
+                onClick = { navController.popBackStack() },
                 modifier = Modifier.padding(vertical = 8.dp)
             ) {
-                Text(stringResource(id = R.string.soporte))
+                Text(stringResource(id = R.string.volver))
             }
-        }
-        Button(
-            onClick = { navController.popBackStack() },
-            modifier = Modifier.padding(vertical = 8.dp)
-        ) {
-            Text(stringResource(id = R.string.volver))
-        }
 
+        }
     }
 }
