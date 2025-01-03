@@ -21,8 +21,11 @@ fun Navigation() {
             val nombrePeli = backStackEntry.arguments?.getString("nombrePeli")?: "Desconocida"
             FilmDataScreen(navController, nombrePeli)
         }
-
-        composable("edit") { FilmEditScreen(navController) }
+        // Modificación para que se pueda pasar el parámetro de la película a la pantalla de editar
+        composable("edit/{nombrePeli}") { backStackEntry ->
+            val nombrePeli = backStackEntry.arguments?.getString("nombrePeli")?: "Desconocida"
+            FilmEditScreen(navController, nombrePeli)
+        }
         composable("list") { FilmListScreen(navController) }
     }
 }

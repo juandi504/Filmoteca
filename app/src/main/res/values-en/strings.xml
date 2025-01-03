@@ -18,4 +18,6 @@
     <string name="ver_pelicula_rel">Watch Related</string>
     <string name="editar_pelicula">Edit Movie</string>
     <string name="volver_principal">Return to Main</string>
+    <string name="editada">Edited Movie</string>
+    <string name="cancelado">Editing canceled</string>
 </resources>

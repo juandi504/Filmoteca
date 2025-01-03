@@ -18,4 +18,6 @@
     <string name="ver_pelicula_rel">Ver pelicula Relacionada</string>
     <string name="editar_pelicula">Editar Pelicula</string>
     <string name="volver_principal">Volver a la principal</string>
+    <string name="editada">Película editada</string>
+    <string name="cancelado">Edición cancelada</string>
 </resources>

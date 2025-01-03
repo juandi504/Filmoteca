@@ -38,11 +38,10 @@ fun ButtonPelRel(navController: NavHostController, nombrePeli: String) {
 }
 
 @Composable
-fun ButtonEditar(navController: NavHostController) {
-    val context = LocalContext.current // Obtener el contexto antes de usarlo
-    val toastMessage = stringResource(id = R.string.toast)
+fun ButtonEditar(navController: NavHostController, nombrePeli: String) {
+    // añado el parámetro nombrePeli para poderlo mostrar en la pantalla editar
     Button(
-        onClick = { navController.navigate("edit") },
+        onClick = { navController.navigate("edit/$nombrePeli") },
     ) {
         Text(stringResource(id = R.string.editar_pelicula))
     }
@@ -61,6 +60,9 @@ fun ButtonReturn(navController: NavHostController) {
 
 @Composable
 fun FilmDataScreen(navController: NavHostController, nombrePeli: String) {
+    // variable para almacenar el resultado de la pantalla de editar cuando se pulsa
+    // guardar o cancelar
+    val result = navController.currentBackStackEntry?.savedStateHandle?.get<String>("result")
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -77,15 +79,23 @@ fun FilmDataScreen(navController: NavHostController, nombrePeli: String) {
             // El nombre de la película llega por parámetro, el cual uso para crear un texto
             Text(
                 text = nombrePeli,
-                modifier = Modifier.padding(top = 8.dp, bottom =16.dp),
+                modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
             // el botón de pelicula relacionada debe tener el parámetro de nombrePeli
             ButtonPelRel(navController, nombrePeli)
             Spacer(modifier = Modifier.height(16.dp))
-            ButtonEditar(navController)
+            ButtonEditar(navController, nombrePeli)
             Spacer(modifier = Modifier.height(16.dp))
             ButtonReturn(navController)
+            Spacer(modifier = Modifier.height(16.dp))
+            // compruebo si la pelicula ha sido editada o no
+            result?.let {
+                Text(
+                    text = if (it == "RESULT_OK") stringResource(id = R.string.editada)
+                    else stringResource(id = R.string.cancelado)
+                )
+            }
         }
     }
 }

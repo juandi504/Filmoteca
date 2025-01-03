@@ -10,6 +10,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,9 +26,11 @@ import com.campusdigitalfp.filmoteca.ui.theme.FilmotecaTheme
 
 @Composable
 fun ButtonGuardar(navController: NavHostController) {
-
+    // Modifico el boton guardar para almacenar el resultado si se pulsa
     Button(
-        onClick = { navController.popBackStack() },
+        onClick = {
+            navController.previousBackStackEntry?.savedStateHandle?.set("result", "RESULT_OK")
+            navController.popBackStack() },
     ) {
         Text(stringResource(id = R.string.Guardar))
     }
@@ -32,16 +38,19 @@ fun ButtonGuardar(navController: NavHostController) {
 
 @Composable
 fun ButtonCancelar(navController: NavHostController) {
-
+    // Modifico el boton cancelar para almacenar el resultado si se pulsa
     Button(
-        onClick = { navController.popBackStack() },
+        onClick = {
+            navController.previousBackStackEntry?.savedStateHandle?.set("result", "RESULT_CANCELED")
+            navController.popBackStack() },
     ) {
         Text(stringResource(id = R.string.Cancelar))
     }
 }
 
 @Composable
-fun FilmEditScreen(navController: NavHostController) {
+fun FilmEditScreen(navController: NavHostController, nombrePeli: String) {
+
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -52,7 +61,7 @@ fun FilmEditScreen(navController: NavHostController) {
             verticalArrangement = Arrangement.Center // Centra verticalmente
         ) {
             Text(
-                text = stringResource(id = R.string.Editar_pelicula),
+                text = stringResource(id = R.string.Editar_pelicula) + " " + nombrePeli,
                 modifier = Modifier.padding(16.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
