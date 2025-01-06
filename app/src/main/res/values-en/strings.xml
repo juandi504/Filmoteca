@@ -21,4 +21,12 @@
     <string name="editada">Edited Movie</string>
     <string name="cancelado">Editing canceled</string>
     <string name="lista">Movie List</string>
+    <string name="cartelA">Snatch movie poster</string>
+    <string name="tituloA">Snatch</string>
+    <string name="director">Director: </string>
+    <string name="estreno">Year: </string>
+    <string name="genero">Action movie</string>
+    <string name="formato">Blu-ray</string>
+    <string name="notas">Spectacular cult movie.</string>
+    <string name="ver_en_imdb">View on IMDB</string>
 </resources>

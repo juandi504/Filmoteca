@@ -1,13 +1,18 @@
 package com.campusdigitalfp.filmoteca.screens
 
 import android.content.Context
-import android.widget.Toast
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -23,114 +28,214 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+
 import com.campusdigitalfp.filmoteca.R
-import com.campusdigitalfp.filmoteca.ui.theme.FilmotecaTheme
 
 
+
+private fun abrirPaginaWeb(url: String, context: Context) {
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(url) // Establece la URL que quieres abrir
+    }
+    context.startActivity(intent) // Inicia la actividad
+}
+
+
+// Fila con la imagen y la columna de datos (título, director, etc.)
 @Composable
-fun ButtonPelRel(navController: NavHostController, nombrePeli: String) {
-    // esta variable almacena el nombre de la pelicula dependiendo de cual este mostrando su FilmDataScreen
-    // Si es pelicula A, muestra pelicula B al pulsar en pelicula relacionada y viceversa
-    val peliculaRelacionada = if (nombrePeli == "Película A") "Película B" else "Película A"
-
-    // El boton hace uso de la variable para navegar con ese parámetro
-    Button(
-        onClick = { navController.navigate("data/$peliculaRelacionada") },
+fun RowDetallesPeli() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(stringResource(id = R.string.ver_pelicula_rel))
+        // Imagen del cartel de la película
+        Image(
+            painter = painterResource(id = R.drawable.snatch),
+            contentDescription = stringResource(id = R.string.cartelA),
+            modifier = Modifier
+                .size(width = 180.dp, height = 290.dp)
+                .padding(end = 4.dp)
+                .fillMaxHeight()
+        )
+
+        // Columna con información de la película
+        Column(
+            modifier = Modifier
+                .weight(1f) // Reparte espacio con la imagen
+                .padding(start = 10.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = stringResource(id = R.string.tituloA),
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = stringResource(id = R.string.director),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "Guy Ritchie",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(id = R.string.estreno),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "2000",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(id = R.string.genero),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(id = R.string.formato),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 }
 
+
+// Botón para ver la película en IMDB
 @Composable
-fun ButtonEditar(navController: NavHostController, nombrePeli: String) {
-    // añado el parámetro nombrePeli para poderlo mostrar en la pantalla editar
-    Button(
-        onClick = { navController.navigate("edit/$nombrePeli") },
+fun BotonImdb() {
+    val context = LocalContext.current
+    Button(onClick = { abrirPaginaWeb("https://www.imdb.com/es-es/title/tt0208092/",context) },
+        modifier = Modifier
+            .padding(vertical = 4.dp)
+            .fillMaxWidth()
     ) {
-        Text(stringResource(id = R.string.editar_pelicula))
+        Text(stringResource(id = R.string.ver_en_imdb))
     }
 }
 
-@Composable
-fun ButtonReturn(navController: NavHostController) {
 
-    Button(
-        onClick = { navController.popBackStack("list", false) },
+//Notas de la película
+@Composable
+fun NotasPelicula() {
+    Text(
+        text = stringResource(id = R.string.notas),
+        style = MaterialTheme.typography.bodyMedium,
+        textAlign = TextAlign.Start,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+
+// Fila con 2 botones: "Volver" y "Editar"
+@Composable
+fun BotonesAcciones(navController: NavHostController, nombrePeli: String){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(stringResource(id = R.string.volver_principal))
+        // Botón para volver
+        Button(
+            onClick = { navController.popBackStack("list", false) },
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Text(stringResource(id = R.string.volver))
+        }
+        // Botón para Editar
+        Button(
+            onClick = { navController.navigate("edit/$nombrePeli") },
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Text(stringResource(id = R.string.editar_pelicula))
+        }
     }
 }
 
+
+//Muestra el resultado de la edición (editada / cancelada)
+@Composable
+fun ResultadoEditar(result: String) {
+    Text(
+        text = if (result == "RESULT_OK") {
+            stringResource(id = R.string.editada)
+        } else {
+            stringResource(id = R.string.cancelado)
+        },
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(40.dp)
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilmDataScreen(navController: NavHostController, nombrePeli: String) {
-    // variable para almacenar el resultado de la pantalla de editar cuando se pulsa
-    // guardar o cancelar
     val result = navController.currentBackStackEntry?.savedStateHandle?.get<String>("result")
+    val context = LocalContext.current
+
     Scaffold(
-        // Definición de la barra superior dentro del Scaffold
         topBar = {
             TopAppBar(
-                // Definimos los colores personalizados para la TopAppBar
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer, // Color de fondo de la barra
-                    titleContentColor = MaterialTheme.colorScheme.primary, // Color del título
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
-                // Definimos el título que aparecerá en la TopAppBar
-                title = {
-                    // Texto del título
-                    Text(stringResource(id = R.string.Datos_pelicula))
-                },
-                // Ícono de navegación en la izquierda (botón de retroceso)
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                title = { Text(stringResource(id = R.string.Datos_pelicula)) },
+                navigationIcon = { IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack, // Icono de retroceso
-                            contentDescription = "Atrás" // Descripción del ícono (para accesibilidad)
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Atrás"
                         )
                     }
                 }
             )
-        }) { paddingValues ->
-
-        Column(
+        }
+    ) { innerPadding ->
+        LazyColumn(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
+                .padding(innerPadding)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center // Centra verticalmente
+            verticalArrangement = Arrangement.Top
         ) {
-            Text(
-                text = stringResource(id = R.string.Datos_pelicula),
-                modifier = Modifier.padding(4.dp),
-            )
-            // El nombre de la película llega por parámetro, el cual uso para crear un texto
-            Text(
-                text = nombrePeli,
-                modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            // el botón de pelicula relacionada debe tener el parámetro de nombrePeli
-            ButtonPelRel(navController, nombrePeli)
-            Spacer(modifier = Modifier.height(16.dp))
-            ButtonEditar(navController, nombrePeli)
-            Spacer(modifier = Modifier.height(16.dp))
-            ButtonReturn(navController)
-            Spacer(modifier = Modifier.height(16.dp))
-            // compruebo si la pelicula ha sido editada o no
-            result?.let {
-                Text(
-                    text = if (it == "RESULT_OK") stringResource(id = R.string.editada)
-                    else stringResource(id = R.string.cancelado)
-                )
+
+            // 1) Fila con la imagen y la columna de datos
+            item {
+                RowDetallesPeli()
+            }
+
+             // 2) Botón para ver en IMDB
+            item {
+                BotonImdb()
+            }
+
+             // 3) Notas de la película
+            item {
+                NotasPelicula()
+            }
+
+             // 4) Fila con 2 botones (Volver y Editar)
+            item {
+                BotonesAcciones(navController, nombrePeli)
+            }
+
+            // 5) Mostrar resultado de edición (si existe)
+            item {
+                result?.let { ResultadoEditar(it) }
             }
         }
     }
 }
+
 

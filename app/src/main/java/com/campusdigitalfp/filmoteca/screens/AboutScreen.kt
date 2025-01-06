@@ -42,7 +42,7 @@ fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
-fun abrirPaginaWeb(url: String, context: Context) {
+private fun abrirPaginaWeb(url: String, context: Context) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
         data = Uri.parse(url) // Establece la URL que quieres abrir
     }

@@ -21,4 +21,12 @@
     <string name="editada">Película editada</string>
     <string name="cancelado">Edición cancelada</string>
     <string name="lista">Lista de películas</string>
+    <string name="cartelA">Cartel pelicula Snatch</string>
+    <string name="tituloA">Snatch cerdos y diamantes</string>
+    <string name="director">Director:</string>
+    <string name="estreno">Año:</string>
+    <string name="genero">Acción</string>
+    <string name="formato">Blu-ray</string>
+    <string name="notas">Película de culto espectacular.</string>
+    <string name="ver_en_imdb">Ver en IMDB</string>
 </resources>
