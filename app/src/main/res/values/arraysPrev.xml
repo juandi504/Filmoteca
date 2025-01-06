@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Es el XML de arrays que había usado en el apartado 14 para implementar los DropdownMenu,
+ya que no sabía que en el apartado 15 había que implementarlo -->
+<resources>
+    <string-array name="genero_lista">
+        <item>@string/opcion_g_1</item>
+        <item>@string/opcion_g_2</item>
+        <item>@string/opcion_g_3</item>
+        <item>@string/opcion_g_4</item>
+        <item>@string/opcion_g_5</item>
+    </string-array>
+    <string-array name="formato_lista">
+        <item>@string/opcion_f_1</item>
+        <item>@string/opcion_f_2</item>
+        <item>@string/opcion_f_3</item>
+    </string-array>
+</resources>

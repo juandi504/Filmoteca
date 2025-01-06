@@ -343,7 +343,6 @@ fun FilmEditScreen(navController: NavHostController, nombrePeli: String) {
                 BotonesSuperiores(navController)
 
             }
-
             ColumnaTextos();
             GeneroDrop()
             FormatoDrop()
@@ -356,10 +355,6 @@ fun FilmEditScreen(navController: NavHostController, nombrePeli: String) {
                 ButtonGuardar(navController)
                 ButtonCancelar(navController)
             }
-
-
-
-
         }
     }
 }
