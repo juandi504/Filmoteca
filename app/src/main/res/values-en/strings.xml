@@ -25,8 +25,27 @@
     <string name="tituloA">Snatch</string>
     <string name="director">Director: </string>
     <string name="estreno">Year: </string>
+    <string name="anio">Year </string>
+    <string name="anio_enfocado">Release Year</string>
     <string name="genero">Action movie</string>
     <string name="formato">Blu-ray</string>
     <string name="notas">Spectacular cult movie.</string>
     <string name="ver_en_imdb">View on IMDB</string>
+    <string name="captura_foto">Take Photo</string>
+    <string name="seleccionar_foto">Select Image</string>
+    <string name="titulo">Title</string>
+    <string name="titulo_enfocado">Movie title</string>
+    <string name="director_texto">Director</string>
+    <string name="director_texto_enfocado">Director\'s name</string>
+    <string name="enlace_imdb">Link to IMDB</string>
+    <string name="opcion_g_1">Action</string>
+    <string name="opcion_g_2">Drama</string>
+    <string name="opcion_g_3">Comedy</string>
+    <string name="opcion_g_4">Horror</string>
+    <string name="opcion_g_5">Sci-Fi</string>
+    <string name="opcion_f_1">DVD</string>
+    <string name="opcion_f_2">Blue-ray</string>
+    <string name="opcion_f_3">Online</string>
+    <string name="comentario">Comments</string>
+    <string name="comentario_enfocado">Write your comments</string>
 </resources>

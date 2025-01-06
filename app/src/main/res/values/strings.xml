@@ -25,8 +25,28 @@
     <string name="tituloA">Snatch cerdos y diamantes</string>
     <string name="director">Director:</string>
     <string name="estreno">Año:</string>
+    <string name="anio">Año</string>
+    <string name="anio_enfocado">Año de estreno</string>
     <string name="genero">Acción</string>
     <string name="formato">Blu-ray</string>
     <string name="notas">Película de culto espectacular.</string>
     <string name="ver_en_imdb">Ver en IMDB</string>
+    <string name="captura_foto">Capturar fotografía</string>
+    <string name="seleccionar_foto">Seleccionar imagen</string>
+    <string name="titulo">Titulo</string>
+    <string name="titulo_enfocado">Título de la pelicula</string>
+    <string name="director_texto">Director</string>
+    <string name="director_texto_enfocado">Nombre del director</string>
+    <string name="enlace_imdb">Enlace a IMDB</string>
+    <string name="opcion_g_1">Acción</string>
+    <string name="opcion_g_2">Drama</string>
+    <string name="opcion_g_3">Comedia</string>
+    <string name="opcion_g_4">Terror</string>
+    <string name="opcion_g_5">Sci-Fi</string>
+    <string name="opcion_f_1">DVD</string>
+    <string name="opcion_f_2">Blue-ray</string>
+    <string name="opcion_f_3">Online</string>
+    <string name="comentario">Comentarios</string>
+    <string name="comentario_enfocado">Escribe tus comentarios</string>
+
 </resources>
