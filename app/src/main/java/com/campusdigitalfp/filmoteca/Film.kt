@@ -27,5 +27,27 @@ data class Film(
         const val GENRE_DRAMA = 2
         const val GENRE_SCIFI = 3
         const val GENRE_HORROR = 4
+
+        // Mapeo de géneros a cadenas
+        fun getGenreString(genre: Int): String {
+            return when (genre) {
+                GENRE_ACTION -> "Action"
+                GENRE_COMEDY -> "Comedy"
+                GENRE_DRAMA -> "Drama"
+                GENRE_SCIFI -> "Sci-Fi"
+                GENRE_HORROR -> "Horror"
+                else -> "Unknown"
+            }
+        }
+
+        // Mapeo de formatos a cadenas
+        fun getformatString(format: Int): String {
+            return when (format) {
+                FORMAT_DVD -> "DVD"
+                FORMAT_BLURAY -> "Blu-Ray"
+                FORMAT_DIGITAL -> "Digital"
+                else -> "Unknown"
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.campusdigitalfp.filmoteca.screens
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -65,7 +66,9 @@ fun FilmListScreen(navController: NavHostController) {
                 // y director (titulo-director) organizado en una columna
                 items(FilmDataSource.films) { film ->
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { navController.navigate("film/${film.id}") },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         // Imagen del cartel de la película

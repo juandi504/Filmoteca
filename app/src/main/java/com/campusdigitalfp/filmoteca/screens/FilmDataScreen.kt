@@ -3,6 +3,7 @@ package com.campusdigitalfp.filmoteca.screens
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,10 +35,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.campusdigitalfp.filmoteca.Film
+import com.campusdigitalfp.filmoteca.FilmDataSource
 
 import com.campusdigitalfp.filmoteca.R
-
-
 
 private fun abrirPaginaWeb(url: String, context: Context) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -46,18 +47,17 @@ private fun abrirPaginaWeb(url: String, context: Context) {
     context.startActivity(intent) // Inicia la actividad
 }
 
-
 // Fila con la imagen y la columna de datos (título, director, etc.)
 @Composable
-fun RowDetallesPeli() {
+fun RowDetallesPeli(film: Film) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Imagen del cartel de la película
         Image(
-            painter = painterResource(id = R.drawable.snatch),
-            contentDescription = stringResource(id = R.string.cartelA),
+            painter = painterResource(film.imageResId),
+            contentDescription = film.title,
             modifier = Modifier
                 .size(width = 180.dp, height = 290.dp)
                 .padding(end = 4.dp)
@@ -72,7 +72,7 @@ fun RowDetallesPeli() {
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = stringResource(id = R.string.tituloA),
+                text = film.title?:"Titulo desconocido",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -82,7 +82,7 @@ fun RowDetallesPeli() {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Guy Ritchie",
+                text = film.director?:"Desconocido",
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
@@ -91,15 +91,15 @@ fun RowDetallesPeli() {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "2000",
+                text = film.year.toString(),
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = stringResource(id = R.string.genero),
+                text = Film.getGenreString(film.genre),
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = stringResource(id = R.string.formato),
+                text = Film.getformatString(film.format),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -109,9 +109,9 @@ fun RowDetallesPeli() {
 
 // Botón para ver la película en IMDB
 @Composable
-fun BotonImdb() {
+fun BotonImdb(film: Film) {
     val context = LocalContext.current
-    Button(onClick = { abrirPaginaWeb("https://www.imdb.com/es-es/title/tt0208092/",context) },
+    Button(onClick = { abrirPaginaWeb(film.imdbUrl?:"",context) },
         modifier = Modifier
             .padding(vertical = 4.dp)
             .fillMaxWidth()
@@ -123,9 +123,9 @@ fun BotonImdb() {
 
 //Notas de la película
 @Composable
-fun NotasPelicula() {
+fun NotasPelicula(film: Film) {
     Text(
-        text = stringResource(id = R.string.notas),
+        text = film.comments?:"",
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Start,
         modifier = Modifier.fillMaxWidth()
@@ -135,7 +135,7 @@ fun NotasPelicula() {
 
 // Fila con 2 botones: "Volver" y "Editar"
 @Composable
-fun BotonesAcciones(navController: NavHostController, nombrePeli: String){
+fun BotonesAcciones(navController: NavHostController, film: Film){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -153,7 +153,7 @@ fun BotonesAcciones(navController: NavHostController, nombrePeli: String){
         }
         // Botón para Editar
         Button(
-            onClick = { navController.navigate("edit/$nombrePeli") },
+            onClick = { navController.navigate("edit/${film.id}") },
             modifier = Modifier
                 .weight(1f)
         ) {
@@ -163,25 +163,23 @@ fun BotonesAcciones(navController: NavHostController, nombrePeli: String){
 }
 
 
-//Muestra el resultado de la edición (editada / cancelada)
+// Modificada la muestra el resultado de la edición mediante un Toast
 @Composable
 fun ResultadoEditar(result: String) {
-    Text(
-        text = if (result == "RESULT_OK") {
-            stringResource(id = R.string.editada)
-        } else {
-            stringResource(id = R.string.cancelado)
-        },
-        textAlign = TextAlign.Center,
-        modifier = Modifier.padding(40.dp)
-    )
+    val context = LocalContext.current
+     if (result == "RESULT_OK") {
+            Toast.makeText(context, "Cambios guardados", Toast.LENGTH_SHORT).show()
+        } else if (result == "RESULT_CANCELED"){
+            Toast.makeText(context, "Cambios cancelados", Toast.LENGTH_SHORT).show()
+        }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilmDataScreen(navController: NavHostController, nombrePeli: String) {
+fun FilmDataScreen(navController: NavHostController, id: Int) {
     val result = navController.currentBackStackEntry?.savedStateHandle?.get<String>("result")
     val context = LocalContext.current
+    val film = FilmDataSource.films[id] // Selección de la película con id igual al parámetro
 
     Scaffold(
         topBar = {
@@ -212,22 +210,22 @@ fun FilmDataScreen(navController: NavHostController, nombrePeli: String) {
 
             // 1) Fila con la imagen y la columna de datos
             item {
-                RowDetallesPeli()
+                RowDetallesPeli(film)
             }
 
              // 2) Botón para ver en IMDB
             item {
-                BotonImdb()
+                BotonImdb(film)
             }
 
              // 3) Notas de la película
             item {
-                NotasPelicula()
+                NotasPelicula(film)
             }
 
              // 4) Fila con 2 botones (Volver y Editar)
             item {
-                BotonesAcciones(navController, nombrePeli)
+                BotonesAcciones(navController, film)
             }
 
             // 5) Mostrar resultado de edición (si existe)

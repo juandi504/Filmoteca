@@ -13,18 +13,23 @@ import com.campusdigitalfp.filmoteca.screens.FilmListScreen
 fun Navigation() {
     val navController = rememberNavController()
 
+
     NavHost(navController = navController, startDestination = "list") {
         composable("about") { AboutScreen(navController) }
 
-        // Modificación para que se pueda pasar el parámetro de la película
-        composable("data/{nombrePeli}") { backStackEntry ->
-            val nombrePeli = backStackEntry.arguments?.getString("nombrePeli")?: "Desconocida"
-            FilmDataScreen(navController, nombrePeli)
+        // Modificación para que se pueda pasar el indice de la pelicula seleccionada
+        composable("film/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")?.toInt()
+            if (id != null) {
+                FilmDataScreen(navController, id)
+            }
         }
         // Modificación para que se pueda pasar el parámetro de la película a la pantalla de editar
-        composable("edit/{nombrePeli}") { backStackEntry ->
-            val nombrePeli = backStackEntry.arguments?.getString("nombrePeli")?: "Desconocida"
-            FilmEditScreen(navController, nombrePeli)
+        composable("edit/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")?.toInt()
+            if (id != null) {
+                FilmEditScreen(navController, id)
+            }
         }
         composable("list") { FilmListScreen(navController) }
     }
