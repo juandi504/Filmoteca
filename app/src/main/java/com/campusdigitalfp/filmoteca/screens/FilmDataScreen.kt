@@ -5,7 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -193,14 +196,20 @@ fun FilmDataScreen(navController: NavHostController, id: Int) {
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
-                title = { Text(stringResource(id = R.string.Datos_pelicula)) },
-                navigationIcon = { IconButton(onClick = { navController.popBackStack() }) {
+                // Icono de "HOME" en la izquierda que nos lleva a FilmListScreen
+                navigationIcon = {
+                    Box(
+                        modifier = Modifier
+                            .clickable { navController.popBackStack("list", false) }
+                            .padding(8.dp)
+                    ){
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Atrás"
+                            imageVector = Icons.Filled.Home,
+                            contentDescription = "Volver a pantalla de inicio"
                         )
                     }
-                }
+                },
+                title = { Text(stringResource(id = R.string.Datos_pelicula)) },
             )
         }
     ) { innerPadding ->

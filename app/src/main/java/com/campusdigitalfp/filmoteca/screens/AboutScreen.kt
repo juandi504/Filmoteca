@@ -5,7 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -79,19 +82,24 @@ fun AboutScreen(navController: NavHostController) {
                     containerColor = MaterialTheme.colorScheme.primaryContainer, // Color de fondo de la barra
                     titleContentColor = MaterialTheme.colorScheme.primary, // Color del título
                 ),
+                // Icono de "HOME" en la izquierda que nos lleva a FilmListScreen
+                navigationIcon = {
+                    Box(
+                        modifier = Modifier
+                            .clickable { navController.popBackStack("list", false) }
+                            .padding(8.dp)
+                    ){
+                        Icon(
+                            imageVector = Icons.Filled.Home,
+                            contentDescription = "Volver a pantalla de inicio"
+                        )
+                    }
+                },
                 // Definimos el título que aparecerá en la TopAppBar
                 title = {
                     Text(stringResource(id = R.string.Acerca_de)) // Texto del título
                 },
-                // Ícono de navegación en la izquierda (botón de retroceso)
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack, // Icono de retroceso
-                            contentDescription = "Atrás" // Descripción del ícono (para accesibilidad)
-                        )
-                    }
-                }
+
             )
         }) {paddingValues ->
         val context = LocalContext.current // Obtener el contexto local

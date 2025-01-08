@@ -15,8 +15,11 @@ fun Navigation() {
 
 
     NavHost(navController = navController, startDestination = "list") {
+
+        // NAVEGACIÓN A ABOUT
         composable("about") { AboutScreen(navController) }
 
+        // NAVEGACION A FILMDATA
         // Modificación para que se pueda pasar el indice de la pelicula seleccionada
         composable("film/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")?.toInt()
@@ -24,6 +27,8 @@ fun Navigation() {
                 FilmDataScreen(navController, id)
             }
         }
+
+        // NAVEGACION A FILMEDIT
         // Modificación para que se pueda pasar el parámetro de la película a la pantalla de editar
         composable("edit/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")?.toInt()
@@ -31,8 +36,8 @@ fun Navigation() {
                 FilmEditScreen(navController, id)
             }
         }
-        composable("list") { FilmListScreen(navController) }
 
-        //composable("crearPelicula") { CreateFilm(navController).nuevaPelicula() }
+        // NAVEGACION A FILMLIST
+        composable("list") { FilmListScreen(navController) }
     }
 }
