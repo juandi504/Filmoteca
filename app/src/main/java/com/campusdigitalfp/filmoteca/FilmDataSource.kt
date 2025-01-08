@@ -1,9 +1,12 @@
 package com.campusdigitalfp.filmoteca
 
+import androidx.compose.runtime.mutableStateListOf
+
 // Aquí se crea el object de Kotlin con la lista de las películas y sus datos.
 object FilmDataSource {
-    // Lista mutable de objetos Film
-    val films: MutableList<Film> = mutableListOf()
+    // Cambio la inicialización de una lista mutable vacia pero con
+    // mutableStateListOf, lo que repinta automaticamente las pantallas que la observen
+    val films = mutableStateListOf<Film>()
 
     // Con init inicializamos los datos y se añaden a la lista films
     init {

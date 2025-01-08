@@ -12,26 +12,39 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.campusdigitalfp.filmoteca.CreateFilm
 import com.campusdigitalfp.filmoteca.FilmDataSource
 import com.campusdigitalfp.filmoteca.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilmListScreen(navController: NavHostController) {
+    var expanded by remember { mutableStateOf(false) }
     Scaffold(
         // Definición de la barra superior dentro del Scaffold
         topBar = {
@@ -44,11 +57,57 @@ fun FilmListScreen(navController: NavHostController) {
                 // Definimos el título que aparecerá en la TopAppBar
                 title = {
                     Text(stringResource(id = R.string.lista)) // Texto del título
+                },
+                //Menú desplegable en la esquina superior derecha con el icono de 3 puntitos
+                actions = {
+                    IconButton(onClick = { expanded = !expanded }) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = "Menú desplegable"
+                        )
+                    }
+                    // DropdownMenu que se desplegará al pulsar en los 3 puntitos
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                    ) {
+                        DropdownMenuItem(
+                            onClick = {
+                                CreateFilm().nuevaPelicula()
+                                expanded = false
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Filled.Add,
+                                    contentDescription = "Añadir película",
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            },
+                            text = { Text("Añadir película") }
+                        )
+                        DropdownMenuItem(
+                            onClick = {
+                                navController.navigate("about")
+                                expanded = false
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Filled.Info,
+                                    contentDescription = "Acerca de",
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            },
+                            text = { Text("Acerca de") }
+                        )
+                    }
                 }
             )
         }
+
     ) { innerPadding ->
         // Usamos una columna para organizar la lista y el botón acerca de
+        //Menú desplegable en la esquina superior derecha
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -99,15 +158,6 @@ fun FilmListScreen(navController: NavHostController) {
                         }
                     }
                 }
-            }
-            // Fuera del LazyColumn se sitúa el botón acerca de
-            Button(
-                onClick = { navController.navigate("about") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-            ) {
-                Text(stringResource(id = R.string.Acerca_de))
             }
         }
     }

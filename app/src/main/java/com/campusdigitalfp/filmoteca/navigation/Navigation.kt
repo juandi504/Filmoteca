@@ -32,5 +32,7 @@ fun Navigation() {
             }
         }
         composable("list") { FilmListScreen(navController) }
+
+        //composable("crearPelicula") { CreateFilm(navController).nuevaPelicula() }
     }
 }

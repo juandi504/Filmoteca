@@ -44,7 +44,13 @@ private fun abrirPaginaWeb(url: String, context: Context) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
         data = Uri.parse(url) // Establece la URL que quieres abrir
     }
-    context.startActivity(intent) // Inicia la actividad
+    try {
+        context.startActivity(intent) // Inicia la actividad
+    } catch (e: Exception) {
+        // Maneja el caso cuando no haya una dirección web correcta en el enlace de IMDB
+        Toast.makeText(context, "Dirección web inválida", Toast.LENGTH_SHORT)
+            .show()
+    }
 }
 
 // Fila con la imagen y la columna de datos (título, director, etc.)
@@ -178,7 +184,6 @@ fun ResultadoEditar(result: String) {
 @Composable
 fun FilmDataScreen(navController: NavHostController, id: Int) {
     val result = navController.currentBackStackEntry?.savedStateHandle?.get<String>("result")
-    val context = LocalContext.current
     val film = FilmDataSource.films[id] // Selección de la película con id igual al parámetro
 
     Scaffold(
