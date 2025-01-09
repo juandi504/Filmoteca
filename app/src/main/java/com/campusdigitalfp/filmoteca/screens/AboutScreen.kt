@@ -15,12 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -35,15 +33,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.campusdigitalfp.filmoteca.R
-
-// Función que recibe el contexto y carga los datos necesarios
-fun loadData(context: Context) {
-    // Cargar datos aquí, por ejemplo cargar preferencias o recursos
-}
-
-fun showToast(context: Context, message: String) {
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-}
 
 private fun abrirPaginaWeb(url: String, context: Context) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -103,8 +92,6 @@ fun AboutScreen(navController: NavHostController) {
             )
         }) {paddingValues ->
         val context = LocalContext.current // Obtener el contexto local
-        val toastMessage =
-            stringResource(id = R.string.toast) // Defino esta variable ya que si no no me deja usar stringResource en onClick
         Column(
             modifier = Modifier.fillMaxSize().padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally,

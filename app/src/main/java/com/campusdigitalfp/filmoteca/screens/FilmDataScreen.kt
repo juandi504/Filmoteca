@@ -17,12 +17,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -162,7 +160,11 @@ fun BotonesAcciones(navController: NavHostController, film: Film){
         }
         // Botón para Editar
         Button(
-            onClick = { navController.navigate("edit/${film.id}") },
+            onClick = {
+                navController.navigate("edit/${film.id}") {
+                    launchSingleTop = true // Evita que puedas abrir dos veces la misma pantalla pulsando muy rápido
+                }
+            },
             modifier = Modifier
                 .weight(1f)
         ) {
@@ -188,6 +190,8 @@ fun ResultadoEditar(result: String) {
 fun FilmDataScreen(navController: NavHostController, id: Int) {
     val result = navController.currentBackStackEntry?.savedStateHandle?.get<String>("result")
     val film = FilmDataSource.films[id] // Selección de la película con id igual al parámetro
+
+    result?.let { ResultadoEditar(it) }
 
     Scaffold(
         topBar = {
@@ -240,11 +244,6 @@ fun FilmDataScreen(navController: NavHostController, id: Int) {
              // 4) Fila con 2 botones (Volver y Editar)
             item {
                 BotonesAcciones(navController, film)
-            }
-
-            // 5) Mostrar resultado de edición (si existe)
-            item {
-                result?.let { ResultadoEditar(it) }
             }
         }
     }

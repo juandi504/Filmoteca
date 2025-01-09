@@ -121,7 +121,9 @@ fun VistaListaFilm(films: List<Film>, innerPadding: PaddingValues, navController
                             selectedFilms.add(film)
                         }
                     } else {
-                        navController.navigate("film/${film.id}")
+                        navController.navigate("film/${film.id}"){
+                            launchSingleTop = true // Evita que puedas abrir dos veces la misma pelicula pulsando muy rápido
+                        }
                     }
                 },
                 onLongClick = {

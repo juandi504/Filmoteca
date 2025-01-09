@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -60,7 +61,7 @@ fun ButtonGuardar(navController: NavHostController, id: Int, filmModificada: Fil
             Log.i("FilmEditScreen", "Se han guardado los cambios en la película con ID: $id")
             navController.previousBackStackEntry?.savedStateHandle?.set("result", "RESULT_OK")
             // Log de depuración donde indico el valor seteado en result que se devuelve a la screen anterior
-            Log.d("FilmEditScreen" , "result = RESULT_OK en savedStateHandle")
+            Log.d("FilmEditScreen", "result = RESULT_OK en savedStateHandle")
             navController.popBackStack()
             // Log informativo que indica que mediante navController.popBackStack() navegamos a la screen anterior
             Log.i("FilmEditScreen", "Navegando a la pantalla FilmDataScreen")
@@ -79,7 +80,7 @@ fun ButtonCancelar(navController: NavHostController) {
             Log.i("FilmEditScreen", "Se han descartado los cambios.")
             navController.previousBackStackEntry?.savedStateHandle?.set("result", "RESULT_CANCELED")
             // Log de depuración donde indico el valor seteado en result que se devuelve a la screen anterior
-            Log.d("FilmEditScreen" , "result = RESULT_CANCELED en savedStateHandle")
+            Log.d("FilmEditScreen", "result = RESULT_CANCELED en savedStateHandle")
             navController.popBackStack()
             // Log informativo que indica que mediante navController.popBackStack() navegamos a la screen anterior
             Log.i("FilmEditScreen", "Navegando a la pantalla FilmDataScreen")
@@ -108,9 +109,11 @@ fun ButtonCaptura(navController: NavHostController, modifier: Modifier = Modifie
         onClick = { /*sin implementar*/ },
         modifier = modifier
     ) {
-        Text(stringResource(R.string.captura_foto),
+        Text(
+            stringResource(R.string.captura_foto),
             textAlign = TextAlign.Center, // Centra el texto
-            modifier = Modifier.fillMaxWidth()) // Texto ocupa todo el ancho del boton
+            modifier = Modifier.fillMaxWidth()
+        ) // Texto ocupa todo el ancho del boton
     }
 }
 
@@ -120,9 +123,11 @@ fun SeleccionImagen(navController: NavHostController, modifier: Modifier = Modif
         onClick = { /*sin implementar*/ },
         modifier = modifier
     ) {
-        Text(stringResource(R.string.seleccionar_foto),
+        Text(
+            stringResource(R.string.seleccionar_foto),
             textAlign = TextAlign.Center, // Centra el texto
-            modifier = Modifier.fillMaxWidth()) // Texto ocupa todo el ancho del boton
+            modifier = Modifier.fillMaxWidth()
+        ) // Texto ocupa todo el ancho del boton
     }
 }
 
@@ -133,17 +138,17 @@ fun ColumnaTextos(film: Film) {
     var director by remember { mutableStateOf(film.director) }
     var anio by remember { mutableStateOf(film.year.toString()) }
     var linkImdb by remember { mutableStateOf(film.imdbUrl) }
-    Column{
+    Column {
         // campo para título
         TextField(
-            value = title?:"",
+            value = title ?: "",
             //
             onValueChange = {
                 title = it // Actualiza el estado local del TextField
                 film.title = it // Actualiza objeto Film su propiedad tittle
             },
-            label = { Text(stringResource(R.string.titulo))},
-            placeholder = { Text(stringResource(R.string.titulo_enfocado))},
+            label = { Text(stringResource(R.string.titulo)) },
+            placeholder = { Text(stringResource(R.string.titulo_enfocado)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -154,13 +159,13 @@ fun ColumnaTextos(film: Film) {
 
         // campo para director
         TextField(
-            value = director?:"",
+            value = director ?: "",
             onValueChange = {
                 director = it // Actualiza el estado local del TextField
                 film.director = it // Actualiza objeto Film su propiedad director
             },
-            label = { Text(stringResource(R.string.director_texto))},
-            placeholder = { Text(stringResource(R.string.director_texto_enfocado))},
+            label = { Text(stringResource(R.string.director_texto)) },
+            placeholder = { Text(stringResource(R.string.director_texto_enfocado)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -175,9 +180,9 @@ fun ColumnaTextos(film: Film) {
             onValueChange = {
                 anio = it // Actualiza el estado local del TextField
                 film.year = it.toIntOrNull() ?: 0 // Actualiza objeto Film su propiedad year
-                },
-            label = { Text(stringResource(R.string.anio))},
-            placeholder = { Text(stringResource(R.string.anio_enfocado))},
+            },
+            label = { Text(stringResource(R.string.anio)) },
+            placeholder = { Text(stringResource(R.string.anio_enfocado)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -186,13 +191,13 @@ fun ColumnaTextos(film: Film) {
         )
         // campo para enlace IMDB
         TextField(
-            value = linkImdb?:"",
+            value = linkImdb ?: "",
             onValueChange = {
                 linkImdb = it // Actualiza el estado local del TextField
                 film.imdbUrl = it // Actualiza objeto Film su propiedad imdbUrl
             },
-            label = { Text(stringResource(R.string.enlace_imdb))},
-            placeholder = { Text(stringResource(R.string.enlace_imdb))},
+            label = { Text(stringResource(R.string.enlace_imdb)) },
+            placeholder = { Text(stringResource(R.string.enlace_imdb)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -206,8 +211,6 @@ fun ColumnaTextos(film: Film) {
 // DropdownMenu para genero
 @Composable
 fun GeneroDrop(film: Film) {
-    // Contexto necesario para acceder a los recursos.
-    val context = LocalContext.current
     // Controla si el menú desplegable está expandido o no.
     var expandedG by remember { mutableStateOf(false) }
     // Lista de opciones (géneros) obtenidas de los recursos mediante un map de getGenreString
@@ -226,7 +229,9 @@ fun GeneroDrop(film: Film) {
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                 .padding(16.dp)
-                .clickable (onClick = { expandedG = !expandedG }) // Alterna el estado de expansión del menú al hacer click
+                .clickable(onClick = {
+                    expandedG = !expandedG
+                }) // Alterna el estado de expansión del menú al hacer click
         )
 
         // DropdownMenu que se despliega cuando `expanded` es `true`.
@@ -241,7 +246,8 @@ fun GeneroDrop(film: Film) {
                     text = { Text(genero) },
                     onClick = {
                         selectedGenero = genero // Actualiza el género seleccionado.
-                        film.genre = generos.indexOf(genero) // Actualiza objeto Film su propiedad genre
+                        film.genre =
+                            generos.indexOf(genero) // Actualiza objeto Film su propiedad genre
                         expandedG = false // Cierra el menú.
                     }
                 )
@@ -253,8 +259,6 @@ fun GeneroDrop(film: Film) {
 // DropdownMenu para genero
 @Composable
 fun FormatoDrop(film: Film) {
-    // Contexto necesario para acceder a los recursos.
-    val context = LocalContext.current
     // Controla si el menú desplegable está expandido o no.
     var expandedf by remember { mutableStateOf(false) }
 
@@ -273,7 +277,9 @@ fun FormatoDrop(film: Film) {
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                 .padding(16.dp)
-                .clickable (onClick = { expandedf = !expandedf }) // Alterna el estado de expansión del menú al hacer click
+                .clickable(onClick = {
+                    expandedf = !expandedf
+                }) // Alterna el estado de expansión del menú al hacer click
         )
 
         // DropdownMenu que se despliega cuando `expanded` es `true`.
@@ -288,7 +294,8 @@ fun FormatoDrop(film: Film) {
                     text = { Text(genero) },
                     onClick = {
                         selectedFormato = genero // Actualiza el formato seleccionado.
-                        film.format = formatos.indexOf(genero) // Actualiza objeto Film su propiedad format
+                        film.format =
+                            formatos.indexOf(genero) // Actualiza objeto Film su propiedad format
                         expandedf = false // cierra el menu
                     }
                 )
@@ -303,13 +310,13 @@ fun Comentario(film: Film) {
     var comentario by remember { mutableStateOf(film.comments) }
     // campo para comentario
     TextField(
-        value = comentario?:"",
+        value = comentario ?: "",
         onValueChange = {
             comentario = it // Actualiza el comentario
             film.comments = it // Actualiza objeto Film su propiedad comments
         },
-        label = { Text(stringResource(R.string.comentario))},
-        placeholder = { Text(stringResource(R.string.comentario_enfocado))},
+        label = { Text(stringResource(R.string.comentario)) },
+        placeholder = { Text(stringResource(R.string.comentario_enfocado)) },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(
@@ -324,7 +331,7 @@ fun Comentario(film: Film) {
 fun FilmEditScreen(navController: NavHostController, id: Int) {
     val film = FilmDataSource.films[id] // Selección de la película con id igual al parámetro
     // Copia temporal de la pelicula para implementar si debo guardar o descartar cambios
-    var filmModificada by remember{ mutableStateOf(film.copy()) }
+    var filmModificada by remember { mutableStateOf(film.copy()) }
 
     Scaffold(
         // Definición de la barra superior dentro del Scaffold
@@ -341,7 +348,7 @@ fun FilmEditScreen(navController: NavHostController, id: Int) {
                         modifier = Modifier
                             .clickable { navController.popBackStack("list", false) }
                             .padding(8.dp)
-                    ){
+                    ) {
                         Icon(
                             imageVector = Icons.Filled.Home,
                             contentDescription = "Volver a pantalla de inicio"
@@ -354,7 +361,7 @@ fun FilmEditScreen(navController: NavHostController, id: Int) {
                 },
             )
         }) { paddingValues ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
@@ -362,37 +369,38 @@ fun FilmEditScreen(navController: NavHostController, id: Int) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+                    // Imagen del cartel de la película
+                    Image(
+                        painter = painterResource(filmModificada.imageResId),
+                        contentDescription = filmModificada.title,
+                        modifier = Modifier
+                            .size(width = 70.dp, height = 120.dp)
+                            .padding(end = 4.dp)
+                            .fillMaxHeight()
+                    )
+                    BotonesSuperiores(navController)
 
-                // Imagen del cartel de la película
-                Image(
-                    painter = painterResource(filmModificada.imageResId),
-                    contentDescription = filmModificada.title,
-                    modifier = Modifier
-                        .size(width = 70.dp, height = 120.dp)
-                        .padding(end = 4.dp)
-                        .fillMaxHeight()
-                )
-                BotonesSuperiores(navController)
-
-            }
-            // Como parámetro paso la copia de la película y luego en el botón guardar es donde implementaré
-            // como conservar los cambios
-            ColumnaTextos(filmModificada)
-            GeneroDrop(filmModificada)
-            FormatoDrop(filmModificada)
-            Comentario(filmModificada)
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                ButtonGuardar(navController, id, filmModificada)
-                ButtonCancelar(navController)
+                }
+                // Como parámetro paso la copia de la película y luego en el botón guardar es donde implementaré
+                // como conservar los cambios
+                ColumnaTextos(filmModificada)
+                GeneroDrop(filmModificada)
+                FormatoDrop(filmModificada)
+                Comentario(filmModificada)
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    ButtonGuardar(navController, id, filmModificada)
+                    ButtonCancelar(navController)
+                }
             }
         }
     }
