@@ -1,5 +1,6 @@
 package com.campusdigitalfp.filmoteca.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,14 +17,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -57,8 +56,14 @@ fun ButtonGuardar(navController: NavHostController, id: Int, filmModificada: Fil
             // Se modifican los valores almacenados en FilmDataResource para la pelicula con ese id
             // con los valores de filmModificada
             FilmDataSource.films[id] = filmModificada
+            // Log informativo cuando se pulsa guardar en la pantalla de edición FilmEditScreen
+            Log.i("FilmEditScreen", "Se han guardado los cambios en la película con ID: $id")
             navController.previousBackStackEntry?.savedStateHandle?.set("result", "RESULT_OK")
+            // Log de depuración donde indico el valor seteado en result que se devuelve a la screen anterior
+            Log.d("FilmEditScreen" , "result = RESULT_OK en savedStateHandle")
             navController.popBackStack()
+            // Log informativo que indica que mediante navController.popBackStack() navegamos a la screen anterior
+            Log.i("FilmEditScreen", "Navegando a la pantalla FilmDataScreen")
         },
     ) {
         Text(stringResource(R.string.Guardar))
@@ -70,8 +75,14 @@ fun ButtonCancelar(navController: NavHostController) {
     // boton cancelar
     Button(
         onClick = {
+            // Log informativo cuando se pulsa cancelar en la pantalla de edición FilmEditScreen
+            Log.i("FilmEditScreen", "Se han descartado los cambios.")
             navController.previousBackStackEntry?.savedStateHandle?.set("result", "RESULT_CANCELED")
+            // Log de depuración donde indico el valor seteado en result que se devuelve a la screen anterior
+            Log.d("FilmEditScreen" , "result = RESULT_CANCELED en savedStateHandle")
             navController.popBackStack()
+            // Log informativo que indica que mediante navController.popBackStack() navegamos a la screen anterior
+            Log.i("FilmEditScreen", "Navegando a la pantalla FilmDataScreen")
         },
     ) {
         Text(stringResource(R.string.Cancelar))
