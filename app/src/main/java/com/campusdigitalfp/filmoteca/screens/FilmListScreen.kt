@@ -107,7 +107,8 @@ fun VistaListaFilm(films: List<Film>, innerPadding: PaddingValues, navController
             .fillMaxSize()
             .padding(innerPadding)
     ) {
-        items(films) { film ->
+        // key = { it.id } indica que cada elemento en la lista films será identificado de manera única por su id
+        items(films, key = { it.id }) { film ->
             VistaFilm(
                 film = film,
                 onClick = {
@@ -127,8 +128,8 @@ fun VistaListaFilm(films: List<Film>, innerPadding: PaddingValues, navController
                     }
                 },
                 onLongClick = {
-                    isActionMode.value = true
                     selectedFilms.add(film)
+                    isActionMode.value = true
                 },
                 isSelected = selectedFilms.contains(film)
             )

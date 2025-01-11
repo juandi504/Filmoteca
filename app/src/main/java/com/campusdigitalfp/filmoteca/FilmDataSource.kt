@@ -12,7 +12,6 @@ object FilmDataSource {
     init {
         // Primera película: Harry Potter y la piedra filosofal
         val f1 = Film()
-        f1.id = films.size
         f1.title = "Harry Potter y la piedra filosofal"
         f1.director = "Chris Columbus"
         f1.imageResId = R.drawable.harry
@@ -25,7 +24,6 @@ object FilmDataSource {
 
         // Segunda película: Regreso al futuro
         val f2 = Film()
-        f2.id = films.size
         f2.title = "Regreso al futuro"
         f2.director = "Robert Zemeckis"
         f2.imageResId = R.drawable.regreso
@@ -38,7 +36,6 @@ object FilmDataSource {
 
         // Tercera película: El rey león
         val f3 = Film()
-        f3.id = films.size
         f3.title = "El rey león"
         f3.director = "Roger Allers, Rob Minkoff"
         f3.imageResId = R.drawable.leon
@@ -51,7 +48,6 @@ object FilmDataSource {
 
         // Cuarta película: Snatch cerdos y diamantes
         val f4 = Film()
-        f4.id = films.size
         f4.title = "Snatch cerdos y diamantes"
         f4.director = "Guy Ritchie"
         f4.imageResId = R.drawable.snatch
@@ -64,7 +60,6 @@ object FilmDataSource {
 
         // Quinta película: La vida es bella
         val f5 = Film()
-        f5.id = films.size
         f5.title = "La vida es bella"
         f5.director = "Roberto Benigni"
         f5.imageResId = R.drawable.bella
@@ -77,7 +72,6 @@ object FilmDataSource {
 
         // Sexta película: Forrest Gump
         val f6 = Film()
-        f6.id = films.size
         f6.title = "Forrest Gump"
         f6.director = "Robert Zemeckis"
         f6.imageResId = R.drawable.forrest
@@ -90,7 +84,6 @@ object FilmDataSource {
 
         // Séptima película: Pulp Fiction
         val f7 = Film()
-        f7.id = films.size
         f7.title = "Pulp Fiction"
         f7.director = "Quentin Tarantino"
         f7.imageResId = R.drawable.pulp

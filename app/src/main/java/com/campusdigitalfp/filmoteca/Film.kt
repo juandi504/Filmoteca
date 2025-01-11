@@ -1,7 +1,9 @@
 package com.campusdigitalfp.filmoteca
 
+import java.util.UUID
+
 data class Film(
-    var id: Int = 0,
+    val id: UUID = UUID.randomUUID(), // Genera un identificador único
     var imageResId: Int = 0, // Propiedades de la clase
     var title: String? = null,
     var director: String? = null,

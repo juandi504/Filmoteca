@@ -8,7 +8,7 @@ class CreateFilm() {
     fun nuevaPelicula(){
         val nuevaPelicula = Film()
 
-        nuevaPelicula.id = films.size
+        // Elimino el crear un id ya que se genera automáticamente cuando crea una nueva instancia de Film
         nuevaPelicula.title = "Película por defecto"
         nuevaPelicula.director = "Director desconocido"
         nuevaPelicula.imageResId = R.drawable.pelidefecto

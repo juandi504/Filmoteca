@@ -40,6 +40,7 @@ import com.campusdigitalfp.filmoteca.Film
 import com.campusdigitalfp.filmoteca.FilmDataSource
 
 import com.campusdigitalfp.filmoteca.R
+import java.util.UUID
 
 private fun abrirPaginaWeb(url: String, context: Context) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -187,10 +188,17 @@ fun ResultadoEditar(result: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilmDataScreen(navController: NavHostController, id: Int) {
+fun FilmDataScreen(navController: NavHostController, id: UUID) {
     val result = navController.currentBackStackEntry?.savedStateHandle?.get<String>("result")
-    val film = FilmDataSource.films[id] // Selección de la película con id igual al parámetro
+    // Busca la película con el UUID proporcionado
+    val film = FilmDataSource.films.find { it.id == id }
 
+    // Validamos si film es null
+    if (film == null) {
+        navController.popBackStack() // Volvemos a la pantalla anterior si no existe
+        return // Finalizamos la ejecución de la función
+    }
+    // Si film no es null todo se ejecuta con normalidad
     result?.let { ResultadoEditar(it) }
 
     Scaffold(

@@ -48,15 +48,22 @@ import androidx.navigation.NavHostController
 import com.campusdigitalfp.filmoteca.R
 import com.campusdigitalfp.filmoteca.Film
 import com.campusdigitalfp.filmoteca.FilmDataSource
+import java.util.UUID
 
 @Composable
-fun ButtonGuardar(navController: NavHostController, id: Int, filmModificada: Film) {
+fun ButtonGuardar(navController: NavHostController, id: UUID, filmModificada: Film) {
+    // Busca el indice de la película con el UUID proporcionado
+    val index = FilmDataSource.films.indexOfFirst { it.id == id }
+
     // boton guardar
     Button(
         onClick = {
             // Se modifican los valores almacenados en FilmDataResource para la pelicula con ese id
             // con los valores de filmModificada
-            FilmDataSource.films[id] = filmModificada
+            // Si no encuentra ningún elemento film, indexOfFirst devolvera -1
+            if (index != -1) {
+                FilmDataSource.films[index] = filmModificada
+            }
             // Log informativo cuando se pulsa guardar en la pantalla de edición FilmEditScreen
             Log.i("FilmEditScreen", "Se han guardado los cambios en la película con ID: $id")
             navController.previousBackStackEntry?.savedStateHandle?.set("result", "RESULT_OK")
@@ -328,81 +335,87 @@ fun Comentario(film: Film) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilmEditScreen(navController: NavHostController, id: Int) {
-    val film = FilmDataSource.films[id] // Selección de la película con id igual al parámetro
+fun FilmEditScreen(navController: NavHostController, id: UUID) {
+    val film =
+        FilmDataSource.films.find { it.id == id } // Selección de la película con id igual al identificador único
+
+    if (film == null) {
+        navController.popBackStack() // Volver atrás si no se encuentra la película
+        return
+    }
     // Copia temporal de la pelicula para implementar si debo guardar o descartar cambios
     var filmModificada by remember { mutableStateOf(film.copy()) }
 
-    Scaffold(
-        // Definición de la barra superior dentro del Scaffold
-        topBar = {
-            TopAppBar(
-                // Definimos los colores personalizados para la TopAppBar
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer, // Color de fondo de la barra
-                    titleContentColor = MaterialTheme.colorScheme.primary, // Color del título
-                ),
-                // Icono de "HOME" en la izquierda que nos lleva a FilmListScreen
-                navigationIcon = {
-                    Box(
-                        modifier = Modifier
-                            .clickable { navController.popBackStack("list", false) }
-                            .padding(8.dp)
+        Scaffold(
+            // Definición de la barra superior dentro del Scaffold
+            topBar = {
+                TopAppBar(
+                    // Definimos los colores personalizados para la TopAppBar
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer, // Color de fondo de la barra
+                        titleContentColor = MaterialTheme.colorScheme.primary, // Color del título
+                    ),
+                    // Icono de "HOME" en la izquierda que nos lleva a FilmListScreen
+                    navigationIcon = {
+                        Box(
+                            modifier = Modifier
+                                .clickable { navController.popBackStack("list", false) }
+                                .padding(8.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Home,
+                                contentDescription = "Volver a pantalla de inicio"
+                            )
+                        }
+                    },
+                    // Definimos el título que aparecerá en la TopAppBar
+                    title = {
+                        Text(stringResource(id = R.string.editar_pelicula)) // Texto del título
+                    },
+                )
+            }) { paddingValues ->
+            LazyColumn(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.Home,
-                            contentDescription = "Volver a pantalla de inicio"
+
+                        // Imagen del cartel de la película
+                        Image(
+                            painter = painterResource(filmModificada.imageResId),
+                            contentDescription = filmModificada.title,
+                            modifier = Modifier
+                                .size(width = 70.dp, height = 120.dp)
+                                .padding(end = 4.dp)
+                                .fillMaxHeight()
                         )
+                        BotonesSuperiores(navController)
+
                     }
-                },
-                // Definimos el título que aparecerá en la TopAppBar
-                title = {
-                    Text(stringResource(id = R.string.editar_pelicula)) // Texto del título
-                },
-            )
-        }) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    // Imagen del cartel de la película
-                    Image(
-                        painter = painterResource(filmModificada.imageResId),
-                        contentDescription = filmModificada.title,
-                        modifier = Modifier
-                            .size(width = 70.dp, height = 120.dp)
-                            .padding(end = 4.dp)
-                            .fillMaxHeight()
-                    )
-                    BotonesSuperiores(navController)
-
-                }
-                // Como parámetro paso la copia de la película y luego en el botón guardar es donde implementaré
-                // como conservar los cambios
-                ColumnaTextos(filmModificada)
-                GeneroDrop(filmModificada)
-                FormatoDrop(filmModificada)
-                Comentario(filmModificada)
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    ButtonGuardar(navController, id, filmModificada)
-                    ButtonCancelar(navController)
+                    // Como parámetro paso la copia de la película y luego en el botón guardar es donde implementaré
+                    // como conservar los cambios
+                    ColumnaTextos(filmModificada)
+                    GeneroDrop(filmModificada)
+                    FormatoDrop(filmModificada)
+                    Comentario(filmModificada)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        ButtonGuardar(navController, id, filmModificada)
+                        ButtonCancelar(navController)
+                    }
                 }
             }
         }
-    }
 }
 
